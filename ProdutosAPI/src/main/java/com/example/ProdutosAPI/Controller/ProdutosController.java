@@ -2,12 +2,17 @@ package com.example.ProdutosAPI.Controller;
 
 import com.example.ProdutosAPI.Model.ProdutosModel;
 import com.example.ProdutosAPI.Repository.ProdutosRepository;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 @RestController
 @RequestMapping("/produtos")
@@ -57,8 +62,12 @@ public class ProdutosController {
     }
 
     @PostMapping("/salvar")
-    public ProdutosModel salvarProduto(@RequestBody @Validated ProdutosModel produto) {
-        return repository.save(produto);
+    public ResponseEntity<String> salvaProduto(@RequestBody @Validated ProdutosModel produto, BindingResult result ){
+        if (result.hasErrors()){
+            return  ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
+        }else{
+            return ResponseEntity.ok("ok");
+        }
     }
 
     @PutMapping("/atualizar")

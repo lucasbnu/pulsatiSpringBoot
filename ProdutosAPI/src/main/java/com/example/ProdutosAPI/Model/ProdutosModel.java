@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
@@ -42,6 +43,7 @@ public class ProdutosModel {
 
     @Column(name = "preco_unitario")
     @Range(min = 1, message = "O preco deve ser superior a 0")
+    @NotNull(message = "O preco nao pode ser nulo")
     private double precoUnitario;
 
     @Column(name = "unidades_estoque")
